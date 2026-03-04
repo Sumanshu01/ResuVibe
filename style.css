@@ -1,0 +1,716 @@
+:root {
+    --bg-dark: #0f172a;
+    --text-light: #f8fafc;
+    --text-muted: #94a3b8;
+    
+    --primary: #8b5cf6;
+    --secondary: #ec4899;
+    --accent: #06b6d4;
+    
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+
+    --glass-bg: rgba(30, 41, 59, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+
+    --font-sans: 'Outfit', sans-serif;
+    --font-heading: 'Space Grotesk', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Background Animated Blobs */
+.background-elements {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+    filter: blur(80px);
+}
+
+.blob {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.4;
+    animation: float 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.blob-1 {
+    width: 400px;
+    height: 400px;
+    background: var(--primary);
+    top: -100px;
+    left: -100px;
+}
+
+.blob-2 {
+    width: 500px;
+    height: 500px;
+    background: var(--secondary);
+    bottom: -200px;
+    right: -100px;
+    animation-delay: -5s;
+}
+
+.blob-3 {
+    width: 300px;
+    height: 300px;
+    background: var(--accent);
+    top: 40%;
+    left: 40%;
+    animation-delay: -10s;
+}
+
+@keyframes float {
+    0% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -50px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+    100% { transform: translate(0, 0) scale(1); }
+}
+
+/* Typography & General */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 3rem;
+    animation: fadeInDown 0.8s ease-out;
+}
+
+.logo {
+    font-family: var(--font-heading);
+    font-size: 3.5rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.subtitle {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+}
+
+/* Glassmorphism Classes */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 2.5rem;
+    box-shadow: var(--glass-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4);
+}
+
+/* Buttons */
+.btn {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
+}
+
+.btn-primary:hover {
+    box-shadow: 0 6px 20px rgba(236, 72, 153, 0.5);
+    transform: scale(1.05);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.icon-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-btn:hover {
+    background: var(--primary);
+}
+
+/* Views Management */
+.view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    width: 100%;
+    opacity: 1;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.view.hidden {
+    display: none;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.view.active {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+/* View 1: Upload */
+.upload-card {
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+    cursor: pointer;
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+}
+
+.upload-card.dragover {
+    border-color: var(--primary);
+    background: rgba(139, 92, 246, 0.1);
+}
+
+.upload-icon {
+    font-size: 4rem;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    filter: drop-shadow(0 0 10px rgba(6, 182, 212, 0.5));
+}
+
+.upload-card h2 {
+    font-family: var(--font-heading);
+    margin-bottom: 0.5rem;
+}
+
+.upload-card p {
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+}
+
+.file-info {
+    font-size: 0.85rem;
+    margin-top: 1rem;
+    margin-bottom: 0 !important;
+}
+
+/* View 2: Analyzing */
+.analysis-card {
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+.scanner-container {
+    position: relative;
+    width: 100px;
+    height: 120px;
+    margin: 0 auto 2rem;
+}
+
+.document-icon {
+    font-size: 6rem;
+    color: var(--text-muted);
+}
+
+.scanner-line {
+    position: absolute;
+    top: 0;
+    left: -10px;
+    width: calc(100% + 20px);
+    height: 4px;
+    background: var(--accent);
+    box-shadow: 0 0 15px var(--accent);
+    border-radius: 2px;
+    animation: scan 2s ease-in-out infinite alternate;
+}
+
+@keyframes scan {
+    0% { top: 0; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+}
+
+.pulsing-text {
+    font-family: var(--font-heading);
+    animation: pulse 1.5s infinite;
+    margin-bottom: 1.5rem;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    transition: width 0.3s ease;
+}
+
+.status-text {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* View 3: Results */
+.results-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: auto auto;
+    gap: 2rem;
+    width: 100%;
+}
+
+.score-card {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.score-card h2 {
+    font-family: var(--font-heading);
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.score-circle-container {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    margin-bottom: 1.5rem;
+}
+
+.score-circle {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.score-circle-bg {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.1);
+    stroke-width: 8;
+}
+
+.score-circle-path {
+    fill: none;
+    stroke: url(#gradient); 
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 283; /* 2 * PI * 45 */
+    stroke-dashoffset: 283;
+    transition: stroke-dashoffset 1.5s cubic-bezier(0.1, 0.7, 0.1, 1);
+}
+
+/* Adding SVG gradient definition dynamically via CSS is tricky, we'll assign color directly via JS or use a solid stroke with CSS var */
+.score-circle-path.excellent { stroke: var(--success); }
+.score-circle-path.good { stroke: var(--primary); }
+.score-circle-path.average { stroke: var(--warning); }
+.score-circle-path.poor { stroke: var(--danger); }
+
+.score-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: baseline;
+}
+
+#total-score {
+    font-family: var(--font-heading);
+    font-size: 3.5rem;
+    font-weight: 700;
+}
+
+.score-max {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-left: 2px;
+}
+
+.score-message {
+    font-size: 1.1rem;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.breakdown-card {
+    grid-column: 2 / 3;
+    grid-row: 1 / 3;
+}
+
+.breakdown-card h2 {
+    font-family: var(--font-heading);
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.criteria-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.criterion-item {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 4px solid var(--primary);
+}
+
+.criterion-info {
+    flex: 1;
+}
+
+.criterion-name {
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+}
+
+.criterion-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.criterion-score-badge {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-weight: 700;
+    font-family: var(--font-heading);
+    min-width: 60px;
+    text-align: center;
+    margin-left: 1rem;
+}
+
+.tips-card {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+}
+
+.tips-card h2 {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tips-carousel {
+    position: relative;
+    min-height: 120px;
+    overflow: hidden;
+}
+
+.tip-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    transform: translateX(20px);
+    transition: all 0.4s ease;
+    pointer-events: none;
+}
+
+.tip-item.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+}
+
+.tip-item h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-light);
+}
+
+.tip-item p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.tips-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+}
+
+.tip-indicators {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.indicator.active {
+    background: var(--accent);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 2rem 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.developer-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 0.8rem;
+}
+
+.dev-name {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.dev-name strong {
+    color: var(--text-light);
+    font-weight: 600;
+}
+
+.dev-socials {
+    display: flex;
+    gap: 0.6rem;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+}
+
+.social-link.linkedin:hover {
+    background: #0077b5;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0, 119, 181, 0.4);
+}
+
+.social-link.github:hover {
+    background: #333;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(51, 51, 51, 0.4);
+}
+
+/* Home Page Resume Tips */
+.home-tips-section {
+    width: 100%;
+    max-width: 900px;
+    margin-top: 3rem;
+}
+
+.home-tips-title {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--text-light);
+}
+
+.home-tips-title i {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-right: 0.4rem;
+}
+
+.home-tips-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+}
+
+.home-tip-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.home-tip-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.home-tip-icon {
+    font-size: 1.8rem;
+    margin-bottom: 0.8rem;
+}
+
+.home-tip-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-light);
+}
+
+.home-tip-card p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+/* Back to Home Button */
+.btn-back-home {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    padding: 0.6rem 1.5rem;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    cursor: pointer;
+    font-size: 0.9rem;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-muted);
+    margin-top: 1.5rem;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-back-home:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--text-light);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateX(-3px);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .results-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+    }
+    .score-card { grid-column: 1; grid-row: 1; }
+    .breakdown-card { grid-column: 1; grid-row: 3; }
+    .tips-card { grid-column: 1; grid-row: 2; }
+
+    .home-tips-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .home-tips-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .developer-info {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}

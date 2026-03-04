@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResuVibe | AI Resume Analyzer</title>
+    <meta name="description"
+        content="Analyze your resume with ResuVibe. Get instant feedback, score breakdown, and tips to land your dream job.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Grotesk:wght@500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="background-elements">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <main class="container">
+        <header>
+            <h1 class="logo">Resu<span class="gradient-text">Vibe</span></h1>
+            <p class="subtitle">Elevate your career with AI-powered resume analysis</p>
+        </header>
+
+        <!-- VIEW 1: UPLOAD -->
+        <section id="upload-view" class="view active">
+            <div class="glass-card upload-card" id="drop-zone">
+                <div class="upload-icon">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                </div>
+                <h2>Upload your Resume</h2>
+                <p>Drag & drop your PDF here, or click to browse</p>
+                <input type="file" id="file-input" accept="application/pdf" hidden>
+                <button class="btn btn-primary" onclick="document.getElementById('file-input').click()">Browse
+                    Files</button>
+                <p class="file-info">Only PDF files up to 5MB</p>
+            </div>
+
+            <!-- Resume Tips Section -->
+            <div class="home-tips-section">
+                <h2 class="home-tips-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Quick Tips for a Killer
+                    Resume</h2>
+                <div class="home-tips-grid">
+                    <div class="home-tip-card">
+                        <div class="home-tip-icon" style="color: #8b5cf6;"><i class="fa-solid fa-bullseye"></i></div>
+                        <h3>Tailor Every Time</h3>
+                        <p>Customize your resume for each job. Mirror keywords from the job description to pass ATS
+                            filters.</p>
+                    </div>
+                    <div class="home-tip-card">
+                        <div class="home-tip-icon" style="color: #ec4899;"><i class="fa-solid fa-chart-line"></i></div>
+                        <h3>Quantify Impact</h3>
+                        <p>Use numbers and metrics. "Increased sales by 25%" is far more powerful than "helped improve
+                            sales."</p>
+                    </div>
+                    <div class="home-tip-card">
+                        <div class="home-tip-icon" style="color: #06b6d4;"><i class="fa-solid fa-spell-check"></i></div>
+                        <h3>Proofread Twice</h3>
+                        <p>Typos and grammar errors are instant deal-breakers. Always have someone else review your
+                            resume.</p>
+                    </div>
+                    <div class="home-tip-card">
+                        <div class="home-tip-icon" style="color: #10b981;"><i class="fa-solid fa-file-lines"></i></div>
+                        <h3>One Page Rule</h3>
+                        <p>Keep it to one page if you have under 10 years of experience. Recruiters spend ~7 seconds per
+                            resume.</p>
+                    </div>
+                    <div class="home-tip-card">
+                        <div class="home-tip-icon" style="color: #f59e0b;"><i class="fa-solid fa-bolt"></i></div>
+                        <h3>Action Verbs First</h3>
+                        <p>Start each bullet with a strong verb: "Led," "Built," "Optimized," "Launched" — not
+                            "Responsible for."</p>
+                    </div>
+                    <div class="home-tip-card">
+                        <div class="home-tip-icon" style="color: #ef4444;"><i class="fa-solid fa-layer-group"></i></div>
+                        <h3>Clean Formatting</h3>
+                        <p>Use consistent fonts, clear headings, and enough white space. A cluttered resume gets
+                            skipped.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 2: ANALYZING -->
+        <section id="analysis-view" class="view hidden">
+            <div class="glass-card analysis-card">
+                <div class="scanner-container">
+                    <i class="fa-regular fa-file-pdf document-icon"></i>
+                    <div class="scanner-line"></div>
+                </div>
+                <h2 class="pulsing-text">Analyzing your Vibe...</h2>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="analysis-progress"></div>
+                </div>
+                <p id="analysis-status" class="status-text">Extracting keywords...</p>
+                <button class="btn btn-back-home" onclick="resetApp()">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Home
+                </button>
+            </div>
+        </section>
+
+        <!-- VIEW 3: RESULTS -->
+        <section id="results-view" class="view hidden">
+            <div class="results-grid">
+                <!-- Score Section -->
+                <div class="glass-card score-card">
+                    <h2>Overall Resume Vibe</h2>
+                    <div class="score-circle-container">
+                        <svg class="score-circle" viewBox="0 0 100 100">
+                            <circle class="score-circle-bg" cx="50" cy="50" r="45"></circle>
+                            <circle class="score-circle-path" id="score-path" cx="50" cy="50" r="45"></circle>
+                        </svg>
+                        <div class="score-text">
+                            <span id="total-score">0</span>
+                            <span class="score-max">/100</span>
+                        </div>
+                    </div>
+                    <p id="score-message" class="score-message">Great start!</p>
+                    <button class="btn btn-secondary" onclick="resetApp()">Analyze Another</button>
+                </div>
+
+                <!-- Analysis Breakdown -->
+                <div class="glass-card breakdown-card">
+                    <h2>Detailed Breakdown</h2>
+                    <div class="criteria-list" id="criteria-container">
+                        <!-- Criteria items will be injected here via JS -->
+                    </div>
+                </div>
+
+                <!-- Tips & Tricks -->
+                <div class="glass-card tips-card">
+                    <h2><i class="fa-solid fa-lightbulb"></i> Pro Tips & Tricks</h2>
+                    <div class="tips-carousel" id="tips-container">
+                        <div class="tip-item active">
+                            <h3>Use Action Verbs</h3>
+                            <p>Start bullet points with strong action verbs like "Spearheaded," "Developed," or
+                                "Optimized" instead of "Responsible for."</p>
+                        </div>
+                        <div class="tip-item">
+                            <h3>Quantify Achievements</h3>
+                            <p>Numbers speak louder than words. Mention percentages, dollar amounts, or team sizes
+                                (e.g., "Increased sales by 15%").</p>
+                        </div>
+                        <div class="tip-item">
+                            <h3>Tailor Keywords</h3>
+                            <p>Borrow exact keywords from the job description. ATS systems scan for these to rank your
+                                resume.</p>
+                        </div>
+                        <div class="tip-item">
+                            <h3>Keep it Concise</h3>
+                            <p>Stick to 1 page if you have less than 10 years of experience. Be ruthlessly brief,
+                                keeping only relevant information.</p>
+                        </div>
+                        <div class="tip-item">
+                            <h3>Showcase Soft Skills</h3>
+                            <p>Don't just list "Leadership." Give an example: "Led a cross-functional team of 5 to
+                                deliver the project ahead of schedule."</p>
+                        </div>
+                    </div>
+                    <div class="tips-controls">
+                        <button id="prev-tip" class="icon-btn"><i class="fa-solid fa-chevron-left"></i></button>
+                        <div class="tip-indicators" id="tip-indicators">
+                            <!-- Indicators injected via JS -->
+                        </div>
+                        <button id="next-tip" class="icon-btn"><i class="fa-solid fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Built with <i class="fa-solid fa-heart" style="color: #ff3366;"></i> for your career growth.</p>
+        <div class="developer-info">
+            <span class="dev-name">Developed by <strong>Sumanshu Jindal</strong></span>
+            <div class="dev-socials">
+                <a href="https://www.linkedin.com/in/sumanshu-jindal-5451b5310/" target="_blank"
+                    rel="noopener noreferrer" class="social-link linkedin" aria-label="LinkedIn">
+                    <i class="fa-brands fa-linkedin-in"></i>
+                </a>
+                <a href="https://github.com/Sumanshu01" target="_blank" rel="noopener noreferrer"
+                    class="social-link github" aria-label="GitHub">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
