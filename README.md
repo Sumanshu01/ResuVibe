@@ -10,7 +10,7 @@
 ![PDF.js](https://img.shields.io/badge/PDF.js-3.11.174-FF6347?style=for-the-badge)
 ![jsPDF](https://img.shields.io/badge/jsPDF-2.5.1-FF1744?style=for-the-badge)
 
-[🚀 View Live Demo](#demo) • [📋 Features](#-features) • [⚙️ Installation](#-installation) • [📊 Scoring System](#-scoring-system) • [🎨 Tech Stack](#-tech-stack)
+[📋 Features](#-features) • [⚙️ Installation](#-installation) • [📊 Scoring System](#-scoring-system) • [🎨 Tech Stack](#-tech-stack)
 
 </div>
 
@@ -622,10 +622,6 @@ We welcome contributions! Here's how:
 - 💬 **Discussions**: Join our community discussions
 - 📧 **Email Support**: [your-email@example.com]
 
-### Follow Us
-- 🐦 Twitter: [@ResxVibe](https://twitter.com)
-- 💼 LinkedIn: [ResuVibe](https://linkedin.com)
-- 🌟 GitHub: [ResxVibe](https://github.com)
 
 ---
 
